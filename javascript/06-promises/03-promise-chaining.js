@@ -28,7 +28,6 @@ function getComments(post) {
 getUser()
   .then((user) => {
     console.log("User:", user);
-
     return getPosts(user.id);
   })
   .then((posts) => {
@@ -41,4 +40,36 @@ getUser()
   })
   .catch((error) => {
     console.log("Error:", error);
+  });
+
+// Promise chaining
+
+function getUserData() {
+  return new Promise((resolve, reject) => {
+    const user = {
+      name: "Rohit",
+      age: 25,
+    };
+    const success = false;
+    if (success) {
+      resolve(user);
+    } else {
+      throw new Error("User aint legit!");
+      reject("User not found");
+    }
+  });
+}
+
+function getDetails(user) {
+  return new Promise((resolve, reject) => {
+    resolve(console.log(user));
+  });
+}
+
+getUserData()
+  .then((user) => {
+    getDetails(user);
+  })
+  .catch((error) => {
+    console.log(error);
   });
