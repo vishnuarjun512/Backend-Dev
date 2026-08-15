@@ -1,18 +1,22 @@
 function throttle(callback, delay) {
-  let waiting;
-  let timer;
-  return function () {};
-  if (!waiting) {
-    waiting = true;
-    timer = setTimeout(callback, delay);
-  }
+  let waiting = false;
+  let count = 0;
+
+  return function () {
+    if (!waiting) {
+      count++;
+      callback(count);
+      waiting = true;
+      setTimeout(() => {
+        waiting = false;
+      }, delay);
+    }
+  };
 }
+const log = throttle((count) => {
+  console.log("Executed " + count + " times");
+}, 0);
 
-const log = throttle(() => {
-  console.log("Executed");
-}, 1000);
-
 log();
-log();
-log();
-log();
+setTimeout(log, 10);
+setTimeout(log, 20);
